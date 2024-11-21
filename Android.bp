@@ -1,0 +1,20 @@
+cc_binary {
+    name: "vhal_subscription_daemon",
+    srcs: [
+        "VehicleClient.cpp", // Replace with your C++ source files
+    ],
+    shared_libs: [
+        "libbinder_ndk",       // Required for binder communication
+        "libc++",              // C++ standard library
+        "liblog",              // Android logging library
+    ],
+    static_libs: [
+        "android.hardware.automotive.vehicle-V2_0-ndk_platform", // VHAL interface library
+    ],
+    cflags: [
+        "-Wall",               // Enable all compiler warnings
+        "-Werror",             // Treat warnings as errors
+    ],
+    init_rc: ["vhal_subscription_daemon.rc"], // Optional, if you have an init script
+    vendor: true,              // Indicates that this is a vendor binary
+}
