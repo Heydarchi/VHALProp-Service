@@ -1,5 +1,0 @@
-service vhal_subscription_daemon /vendor/bin/vhal_subscription_daemon
-    class late_start
-    user system
-    group system
-    oneshot

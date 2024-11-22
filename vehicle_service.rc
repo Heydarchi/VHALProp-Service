@@ -1,0 +1,5 @@
+service vehicle_service /vendor/bin/vehicle_service
+    class main
+    user system
+    group system
+    oneshot
