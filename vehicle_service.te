@@ -1,0 +1,25 @@
+policy_module(vehicle_service, 1.0)
+
+# Define the security context for the vehicle service
+type vehicle_service_exec, domain, exec_type;
+type vehicle_service_t, domain, mlstrustedsubject;
+type vehicle_service_socket, s_socket;
+type vehicle_service_data_file, file_type;
+
+# Allow the vehicle_service to use the necessary permissions
+allow vehicle_service_t self:process execmem;
+allow vehicle_service_t vehicle_service_data_file:dir search;
+allow vehicle_service_t vehicle_service_data_file:file read;
+allow vehicle_service_t vehicle_service_socket:socket create;
+allow vehicle_service_t vehicle_service_socket:socket connectto;
+allow vehicle_service_t vehicle_service_socket:socket bind;
+allow vehicle_service_t vehicle_service_socket:socket listen;
+
+# Allow access to vehicle hardware resources and logs
+allow vehicle_service_t hwservice:rawip_socket create;
+allow vehicle_service_t hwservice:rawip_socket connectto;
+allow vehicle_service_t logd:unix_stream_socket connectto;
+
+# Allow the vehicle service to interact with automotive properties
+allow vehicle_service_t vehicle_prop_service:socket create;
+allow vehicle_service_t vehicle_prop_service:socket connectto;

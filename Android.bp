@@ -1,0 +1,40 @@
+python_binary_host {
+    name: "vhal_prop_parser",
+    main: "vhal_prop_parser.py",
+    srcs: ["vhal_prop_parser.py"],
+}
+
+genrule {
+    name: "generate_vhal_prop_code",
+    srcs: ["vhal_prop.json"],
+    out: ["vhal_prop.h"],
+    cmd: "$(location vhal_prop_parser) $(in) > $(out)",
+    tools: ["vhal_prop_parser"],
+}
+
+
+cc_binary {
+    name: "vehicle_service",
+    srcs: [
+        "DefaultVehicleHal.cpp",
+        "VehicleService.cpp",
+    ],
+    shared_libs: [
+        "libhidlbase",
+        "libutils",
+        "liblog",
+        "android.hardware.automotive.vehicle@2.0",
+        "libbase",
+    ],
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-std=c++17",
+        "-Wno-unused-parameter",
+    ],
+    init_rc: ["vehicle_service.rc"],
+    installable: true,
+    vintf_fragments: [
+        "vehicle_service_hal_manifest.xml",
+    ],
+}
